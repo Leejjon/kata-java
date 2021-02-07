@@ -20,7 +20,7 @@ class GildedRoseTest {
     }
 
     @Test
-    void testUpdateQuality_verifyQualityDoesntGetNegative_WhenPassingSellInDate() {
+    void testUpdateQuality_verifyQualityDoesntGetNegative_WhenSellInIsLowerThanZero() {
         final String name = "foo";
         Item[] items = new Item[] { new Item(name, 0, 0) };
         GildedRose app = new GildedRose(items);
@@ -32,7 +32,7 @@ class GildedRoseTest {
     }
 
     @Test
-    void testUpdateQuality_proveQualityIncreasesTwiceAsFast_AfterSellInReachesZero() {
+    void testUpdateQuality_verifyQualityIncreasesTwiceAsFast_AfterSellInReachesZero() {
         final String name = "food";
         Item[] items = new Item[] { new Item(name, 0, 10) };
         GildedRose app = new GildedRose(items);
@@ -44,7 +44,7 @@ class GildedRoseTest {
     }
 
     @Test
-    void testUpdateQuality_proveAgedBrieIncreasesInQuality() {
+    void testUpdateQuality_verifyAgedBrieIncreasesInQuality() {
         final String name = "Aged Brie";
         Item[] items = new Item[] { new Item(name, 5, 5) };
         GildedRose app = new GildedRose(items);
@@ -56,7 +56,7 @@ class GildedRoseTest {
     }
 
     @Test
-    void testUpdateQuality_proveAgedBrieIncreasesInQuality_evenAfterSellInIsLowerThanZero() {
+    void testUpdateQuality_verifyAgedBrieIncreasesInQuality_afterSellInIsLowerThanZero() {
         final String name = "Aged Brie";
         Item[] items = new Item[] { new Item(name, 0, 0) };
         GildedRose app = new GildedRose(items);
@@ -69,4 +69,65 @@ class GildedRoseTest {
         assertThat(itemThatShouldHaveBeenUpdated.sellIn, is(-1));
     }
 
+    @Test
+    void testUpdateQuality_verifyAgedBrieQualityCantBeMoreThan50() {
+        final String name = "Aged Brie";
+        Item[] items = new Item[] { new Item(name, 1, 50) };
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+
+        Item itemThatShouldHaveBeenUpdated = app.items[0];
+        assertThat(itemThatShouldHaveBeenUpdated.quality, is(50));
+        assertThat(itemThatShouldHaveBeenUpdated.sellIn, is(0));
+    }
+
+    @Test
+    void testUpdateQuality_verifySulfurasNeverDecreasesInQuality() {
+        final String name = "Sulfuras, Hand of Ragnaros";
+        Item[] items = new Item[] { new Item(name, 0, 80) };
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+
+        Item itemThatShouldHaveBeenUpdated = app.items[0];
+        assertThat(itemThatShouldHaveBeenUpdated.quality, is(80));
+        assertThat(itemThatShouldHaveBeenUpdated.sellIn, is(0));
+    }
+    
+    @Test
+    void testUpdateQuality_verifyBackStagePassQualityIsZero_afterSellInIsLowerThanZero() {
+        final String name = "Backstage passes to a TAFKAL80ETC concert";
+        Item[] items = new Item[] { new Item(name, 0, 15) };
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+
+        Item itemThatShouldHaveBeenUpdated = app.items[0];
+        assertThat(itemThatShouldHaveBeenUpdated.quality, is(0));
+        assertThat(itemThatShouldHaveBeenUpdated.sellIn, is(-1));
+    }
+
+    @Test
+    void testUpdateQuality_verifyBackStagePassQualityIncreasesByTwo_whenSellInIsTenOrLower() {
+        final String name = "Backstage passes to a TAFKAL80ETC concert";
+        Item[] items = new Item[] { new Item(name, 10, 15) };
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+
+        Item itemThatShouldHaveBeenUpdated = app.items[0];
+
+        assertThat(itemThatShouldHaveBeenUpdated.quality, is(17));
+        assertThat(itemThatShouldHaveBeenUpdated.sellIn, is(9));
+    }
+
+    @Test
+    void testUpdateQuality_verifyBackStagePassQualityIncreasesByThree_whenSellInIsFiveOrLower() {
+        final String name = "Backstage passes to a TAFKAL80ETC concert";
+        Item[] items = new Item[] { new Item(name, 5, 15) };
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+
+        Item itemThatShouldHaveBeenUpdated = app.items[0];
+
+        assertThat(itemThatShouldHaveBeenUpdated.quality, is(18));
+        assertThat(itemThatShouldHaveBeenUpdated.sellIn, is(4));
+    }
 }
