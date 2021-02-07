@@ -106,6 +106,19 @@ class GildedRoseTest {
     }
 
     @Test
+    void testUpdateQuality_verifyBackStagePassQualityIncreasesByOne_whenSellInIsAbove10() {
+        final String name = "Backstage passes to a TAFKAL80ETC concert";
+        Item[] items = new Item[] { new Item(name, 11, 15) };
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+
+        Item itemThatShouldHaveBeenUpdated = app.items[0];
+
+        assertThat(itemThatShouldHaveBeenUpdated.quality, is(16));
+        assertThat(itemThatShouldHaveBeenUpdated.sellIn, is(10));
+    }
+
+    @Test
     void testUpdateQuality_verifyBackStagePassQualityIncreasesByTwo_whenSellInIsTenOrLower() {
         final String name = "Backstage passes to a TAFKAL80ETC concert";
         Item[] items = new Item[] { new Item(name, 10, 15) };
@@ -129,5 +142,29 @@ class GildedRoseTest {
 
         assertThat(itemThatShouldHaveBeenUpdated.quality, is(18));
         assertThat(itemThatShouldHaveBeenUpdated.sellIn, is(4));
+    }
+
+    @Test
+    void testUpdateQuality_verifyWhetherConjuredItemsDegradeTwiceAsFast() {
+        final String name = "Conjured Mana Cake";
+        Item[] items = new Item[] { new Item(name, 5, 15) };
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+
+        Item itemThatShouldHaveBeenUpdated = app.items[0];
+        assertThat(itemThatShouldHaveBeenUpdated.quality, is(13));
+        assertThat(itemThatShouldHaveBeenUpdated.sellIn, is(4));
+    }
+
+    @Test
+    void testUpdateQuality_verifyWhetherConjuredItemsDegradeTwiceAsFast_whenSellInIsZero() {
+        final String name = "Conjured Mana Cake";
+        Item[] items = new Item[] { new Item(name, 0, 15) };
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+
+        Item itemThatShouldHaveBeenUpdated = app.items[0];
+        assertThat(itemThatShouldHaveBeenUpdated.quality, is(11));
+        assertThat(itemThatShouldHaveBeenUpdated.sellIn, is(-1));
     }
 }
