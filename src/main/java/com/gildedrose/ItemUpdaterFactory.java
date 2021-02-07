@@ -2,7 +2,7 @@ package com.gildedrose;
 
 import com.gildedrose.items.*;
 
-public class ItemsFactory {
+public class ItemUpdaterFactory {
     public ItemUpdater getItemTypeByName(String name) {
         return switch (name) {
             case "Sulfuras, Hand of Ragnaros" -> new LegendaryItemUpdater();

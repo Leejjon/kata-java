@@ -4,7 +4,7 @@ import com.gildedrose.Item;
 import com.gildedrose.ItemUpdater;
 
 /**
- * Foot, drinks, or anything else that has an expiration date.
+ * Food, drinks, or anything else that has an expiration date.
  */
 public class DegradableItemUpdater implements ItemUpdater {
     final int defaultQualityDecrease;
