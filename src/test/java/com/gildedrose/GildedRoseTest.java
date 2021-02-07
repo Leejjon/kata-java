@@ -2,41 +2,71 @@ package com.gildedrose;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 
 class GildedRoseTest {
     @Test
-    void testUpdateQuality_verifyQualityAndSellInDateDecrease_forStandardItems() {
-        Item[] items = new Item[] { new Item("foo", 5, 5) };
+    void testUpdateQuality_verifyQualityAndSellInDateDecrease_forStandardItem() {
+        final String name = "foo";
+        Item[] items = new Item[] { new Item(name, 5, 5) };
         GildedRose app = new GildedRose(items);
         app.updateQuality();
 
-        assertEquals("foo", app.items[0].name);
-        assertEquals(4, app.items[0].quality);
-        assertEquals(4, app.items[0].sellIn);
+        Item itemThatShouldHaveBeenUpdated = app.items[0];
+        assertThat(itemThatShouldHaveBeenUpdated.name, is(name));
+        assertThat(itemThatShouldHaveBeenUpdated.quality, is(4));
+        assertThat(itemThatShouldHaveBeenUpdated.sellIn, is(4));
     }
 
     @Test
     void testUpdateQuality_verifyQualityDoesntGetNegative_WhenPassingSellInDate() {
-        Item[] items = new Item[] { new Item("foo", 0, 0) };
+        final String name = "foo";
+        Item[] items = new Item[] { new Item(name, 0, 0) };
         GildedRose app = new GildedRose(items);
         app.updateQuality();
 
-        assertEquals("foo", app.items[0].name);
-        assertEquals(0, app.items[0].quality);
-        assertEquals(-1, app.items[0].sellIn);
+        Item itemThatShouldHaveBeenUpdated = app.items[0];
+        assertThat(itemThatShouldHaveBeenUpdated.quality, is(0));
+        assertThat(itemThatShouldHaveBeenUpdated.sellIn, is(-1));
     }
 
     @Test
     void testUpdateQuality_proveQualityIncreasesTwiceAsFast_AfterSellInReachesZero() {
-        Item[] items = new Item[] { new Item("food", 0, 10) };
-
+        final String name = "food";
+        Item[] items = new Item[] { new Item(name, 0, 10) };
         GildedRose app = new GildedRose(items);
         app.updateQuality();
 
-        assertEquals("food", app.items[0].name);
-        assertEquals(8, app.items[0].quality);
-        assertEquals(-1, app.items[0].sellIn);
+        Item itemThatShouldHaveBeenUpdated = app.items[0];
+        assertThat(itemThatShouldHaveBeenUpdated.quality, is(8));
+        assertThat(itemThatShouldHaveBeenUpdated.sellIn, is(-1));
+    }
+
+    @Test
+    void testUpdateQuality_proveAgedBrieIncreasesInQuality() {
+        final String name = "Aged Brie";
+        Item[] items = new Item[] { new Item(name, 5, 5) };
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+
+        Item itemThatShouldHaveBeenUpdated = app.items[0];
+        assertThat(itemThatShouldHaveBeenUpdated.quality, is(6));
+        assertThat(itemThatShouldHaveBeenUpdated.sellIn, is(4));
+    }
+
+    @Test
+    void testUpdateQuality_proveAgedBrieIncreasesInQuality_evenAfterSellInIsLowerThanZero() {
+        final String name = "Aged Brie";
+        Item[] items = new Item[] { new Item(name, 0, 0) };
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+
+        Item itemThatShouldHaveBeenUpdated = app.items[0];
+        // TODO: Verify with product owner whether the faster increase if "Aged Brie" quality when SellIn
+        //  is lower than zero is expected.
+        assertThat(itemThatShouldHaveBeenUpdated.quality, is(2));
+        assertThat(itemThatShouldHaveBeenUpdated.sellIn, is(-1));
     }
 
 }
