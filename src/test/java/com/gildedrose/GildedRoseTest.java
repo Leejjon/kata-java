@@ -145,6 +145,19 @@ class GildedRoseTest {
     }
 
     @Test
+    void testUpdateQuality_verifyBackStagePassMaxQualityLimit_whenSellInIsFiveOrLower() {
+        final String name = "Backstage passes to a TAFKAL80ETC concert";
+        Item[] items = new Item[] { new Item(name, 5, 48) };
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+
+        Item itemThatShouldHaveBeenUpdated = app.items[0];
+
+        assertThat(itemThatShouldHaveBeenUpdated.quality, is(50));
+        assertThat(itemThatShouldHaveBeenUpdated.sellIn, is(4));
+    }
+
+    @Test
     void testUpdateQuality_verifyWhetherConjuredItemsDegradeTwiceAsFast() {
         final String name = "Conjured Mana Cake";
         Item[] items = new Item[] { new Item(name, 5, 15) };
