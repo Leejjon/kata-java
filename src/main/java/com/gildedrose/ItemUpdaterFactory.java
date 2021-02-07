@@ -3,7 +3,7 @@ package com.gildedrose;
 import com.gildedrose.items.*;
 
 public class ItemUpdaterFactory {
-    public ItemUpdater getItemTypeByName(String name) {
+    public ItemUpdater getItemUpdaterByName(String name) {
         return switch (name) {
             case "Sulfuras, Hand of Ragnaros" -> new LegendaryItemUpdater();
             case "Aged Brie" -> new BetterByAgeItemUpdater();

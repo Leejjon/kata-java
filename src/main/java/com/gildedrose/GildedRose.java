@@ -12,7 +12,7 @@ class GildedRose {
         ItemUpdaterFactory itemUpdaterFactory = new ItemUpdaterFactory();
         for (int i = 0; i < items.length; i++) {
             items[i] = itemUpdaterFactory
-                    .getItemTypeByName(items[i].name)
+                    .getItemUpdaterByName(items[i].name)
                     .passDay(items[i]);
         }
     }
