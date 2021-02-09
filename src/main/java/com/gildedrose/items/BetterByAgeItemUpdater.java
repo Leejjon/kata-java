@@ -11,9 +11,9 @@ public class BetterByAgeItemUpdater implements ItemUpdater {
         int quality = item.quality;
 
         if (sellIn > 0) {
-            quality = ItemUpdater.incrementQuality(quality, 1);
+            quality = ItemUpdater.updateQuality(quality, 1);
         } else {
-            quality = ItemUpdater.incrementQuality(quality, 2);
+            quality = ItemUpdater.updateQuality(quality, 2);
         }
         sellIn--;
 

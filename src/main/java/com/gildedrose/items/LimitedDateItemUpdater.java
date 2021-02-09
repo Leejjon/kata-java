@@ -11,11 +11,11 @@ public class LimitedDateItemUpdater implements ItemUpdater {
         int quality = item.quality;
 
         if (sellIn > 10) {
-            quality = ItemUpdater.incrementQuality(quality, 1);
+            quality = ItemUpdater.updateQuality(quality, 1);
         } else if (sellIn > 5) {
-            quality = ItemUpdater.incrementQuality(quality, 2);
+            quality = ItemUpdater.updateQuality(quality, 2);
         } else if (sellIn > 0) {
-            quality = ItemUpdater.incrementQuality(quality, 3);
+            quality = ItemUpdater.updateQuality(quality, 3);
         } else {
             quality = 0;
         }

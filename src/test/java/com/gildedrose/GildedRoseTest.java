@@ -32,7 +32,7 @@ class GildedRoseTest {
     }
 
     @Test
-    void testUpdateQuality_verifyQualityIncreasesTwiceAsFast_AfterSellInReachesZero() {
+    void testUpdateQuality_verifyQualityDecreasesTwiceAsFast_AfterSellInReachesZero() {
         final String name = "food";
         Item[] items = new Item[] { new Item(name, 0, 10) };
         GildedRose app = new GildedRose(items);
@@ -92,7 +92,7 @@ class GildedRoseTest {
         assertThat(itemThatShouldHaveBeenUpdated.quality, is(80));
         assertThat(itemThatShouldHaveBeenUpdated.sellIn, is(0));
     }
-    
+
     @Test
     void testUpdateQuality_verifyBackStagePassQualityIsZero_afterSellInIsLowerThanZero() {
         final String name = "Backstage passes to a TAFKAL80ETC concert";
@@ -178,6 +178,18 @@ class GildedRoseTest {
 
         Item itemThatShouldHaveBeenUpdated = app.items[0];
         assertThat(itemThatShouldHaveBeenUpdated.quality, is(11));
+        assertThat(itemThatShouldHaveBeenUpdated.sellIn, is(-1));
+    }
+
+    @Test
+    void testUpdateQuality_verifyConjuredManaCakeDoesntReachNegativeQuality_AfterSellInReachesZero() {
+        final String name = "food";
+        Item[] items = new Item[] { new Item(name, 0, 1) };
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+
+        Item itemThatShouldHaveBeenUpdated = app.items[0];
+        assertThat(itemThatShouldHaveBeenUpdated.quality, is(0));
         assertThat(itemThatShouldHaveBeenUpdated.sellIn, is(-1));
     }
 }

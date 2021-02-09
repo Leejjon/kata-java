@@ -26,9 +26,9 @@ public class DegradableItemUpdater implements ItemUpdater {
 
         if (quality > 0) {
             if (sellIn <= 0) {
-                quality -= qualityDecreaseAfterSellInDate;
+                quality = ItemUpdater.updateQuality(quality, -qualityDecreaseAfterSellInDate);
             } else {
-                quality -= defaultQualityDecrease;
+                quality = ItemUpdater.updateQuality(quality, -defaultQualityDecrease);
             }
         }
         sellIn--;
